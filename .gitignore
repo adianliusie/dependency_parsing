@@ -1,0 +1,9 @@
+trained_models
+scripts/LOGs
+
+*/.ipynb_checkpoints/
+pynb_checkpoints/
+*.pyc
+*/__pycache__/
+__pycache__/
+.ipynb_checkpoints/
