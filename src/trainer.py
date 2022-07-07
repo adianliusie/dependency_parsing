@@ -23,15 +23,12 @@ class Trainer():
     def set_up_helpers(self, args:namedtuple):
         self.model_args = args
         
-        self.C = ConvHelper(trans_name=args.transformer, 
-                            num_speakers=args.num_speakers)
+        self.C = ConvHelper(trans_name=args.transformer)
 
         self.batcher = Batcher(
-                           C=self.C,
-                           formatting=args.formatting,
                            max_len=args.max_len)
         
-        self.model = GPTLMModel(trans_name=args.transformer, C=self.C)
+        self.model = GPTLMModel(trans_name=args.transformer)
         num_params = sum(p.numel() for p in self.model.parameters())
         print(f'model has {num_params:,} parameters')
 
@@ -143,7 +140,6 @@ class Trainer():
         # save experiment config details
         cfg = {}
         
-        cfg['formatting']  = self.model_args.formatting
         cfg['transformer'] = self.model_args.transformer
         cfg['epochs']      = args.epochs
         cfg['bsz']         = args.bsz

@@ -18,8 +18,6 @@ model_parser.add_argument('--device',       default='cuda',     type=str,  help=
 
 model_parser.add_argument('--num_seeds',    default=1,            type=int,  help='number of seeds to train')
 model_parser.add_argument('--force',        action='store_true',  help='if set, will overwrite any existing directory')
-model_parser.add_argument('--num_speakers', default=10,           help='adds speakers to tokenizer')
-model_parser.add_argument('--formatting',   default='spkr_sep',   help='how to format the input ids')
 
 #### ArgParse for Training details
 train_parser = argparse.ArgumentParser(description='Arguments for training the system')
