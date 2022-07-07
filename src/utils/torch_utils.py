@@ -23,9 +23,8 @@ model = AutoModelForCausalLM.from_pretrained("microsoft/DialoGPT-medium")
 def load_lm_transformer(system:str)->'Model':
     """ downloads and returns the relevant pretrained transformer from huggingface """
     
-    if '_rand' in system:
-        rand = True
-        system = system.replace('_rand', '')
+    rand = '_rand' in system
+    system = system.replace('_rand', '')
 
     if   system == 'dialo_gpt_small' : trans_model = AutoModelForCausalLM.from_pretrained("microsoft/DialoGPT-small")
     elif system == 'dialo_gpt_med'   : trans_model = AutoModelForCausalLM.from_pretrained("microsoft/DialoGPT-medium")
@@ -39,7 +38,6 @@ def load_lm_transformer(system:str)->'Model':
         
     if rand:
         trans_model.apply(trans_model._init_weights)
-        print('reinitialising all weights')
         
     return trans_model
 
