@@ -30,7 +30,7 @@ class Trainer():
         
         self.model = GPTLMModel(trans_name=args.transformer)
         num_params = sum(p.numel() for p in self.model.parameters())
-        print(f'model has {num_params:,} parameters')
+        self.dir.log(f'model has {num_params:,} parameters')
 
         self.device = args.device
 
