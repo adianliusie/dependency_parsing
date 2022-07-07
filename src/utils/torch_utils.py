@@ -7,6 +7,7 @@ from transformers import GPT2LMHeadModel, GPTNeoForCausalLM, OpenAIGPTLMHeadMode
 
 def load_tokenizer(system:str)->'Tokenizer':
     """ downloads and returns the relevant pretrained tokenizer from huggingface """
+    system = system.replace('_rand', '')
     if   system == 'dialo_gpt_small' : tokenizer = AutoTokenizer.from_pretrained("microsoft/DialoGPT-small")
     elif system == 'dialo_gpt_med'   : tokenizer = AutoTokenizer.from_pretrained("microsoft/DialoGPT-medium")
     elif system == 'dialo_gpt_large' : tokenizer = AutoTokenizer.from_pretrained("microsoft/DialoGPT-large")
@@ -21,6 +22,11 @@ model = AutoModelForCausalLM.from_pretrained("microsoft/DialoGPT-medium")
 
 def load_lm_transformer(system:str)->'Model':
     """ downloads and returns the relevant pretrained transformer from huggingface """
+    
+    if '_rand' in system:
+        rand = True
+        system = system.replace('_rand', '')
+
     if   system == 'dialo_gpt_small' : trans_model = AutoModelForCausalLM.from_pretrained("microsoft/DialoGPT-small")
     elif system == 'dialo_gpt_med'   : trans_model = AutoModelForCausalLM.from_pretrained("microsoft/DialoGPT-medium")
     elif system == 'dialo_gpt_large' : trans_model = AutoModelForCausalLM.from_pretrained("microsoft/DialoGPT-large")
@@ -30,6 +36,11 @@ def load_lm_transformer(system:str)->'Model':
     elif system == 'gpt_small'       : trans_model = OpenAIGPTLMHeadModel.from_pretrained("openai-gpt")
     elif system == 'gpt_neo'         : trans_model = GPTNeoForCausalLM.from_pretrained("EleutherAI/gpt-neo-1.3B")
     else: raise ValueError("invalid transfomer system provided")
+        
+    if rand:
+        trans_model.apply(trans_model._init_weights)
+        print('reinitialising all weights')
+        
     return trans_model
 
 def no_grad(func:Callable)->Callable:
